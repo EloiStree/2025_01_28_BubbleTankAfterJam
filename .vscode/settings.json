@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "GGJ2.sln"
+    "dotnet.defaultSolution": "2025_01_28_BubbleTankAfterJam.sln"
 }

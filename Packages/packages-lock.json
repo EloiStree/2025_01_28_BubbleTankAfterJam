@@ -42,6 +42,13 @@
       "dependencies": {},
       "hash": "3f49848ede4c03cc9285109b5a9dc4370669980f"
     },
+    "be.elab.transparentoverlayerwindow": {
+      "version": "https://github.com/EloiStree/2024_01_22_TransparentWindowOverlay.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "5ae6b8072116ec4a0ffa7c25139349daa2eb11ee"
+    },
     "be.elab.udpthreadsender": {
       "version": "https://github.com/EloiStree/2020_11_29_UDPThreadSender.git",
       "depth": 0,

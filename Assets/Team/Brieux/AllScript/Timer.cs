@@ -48,12 +48,12 @@ public class Timer : MonoBehaviour
 
             if (timeSpan.TotalMinutes >= 5) 
             {
-                Debug.Log("Temps écoulé, réinitialisation du jeu.");
+                Debug.Log("Temps ï¿½coulï¿½, rï¿½initialisation du jeu.");
                 foreach (GameObject gameObject in activeUsers)
                 {
                     if (!gameObject.activeInHierarchy)
                     {
-                        Debug.Log($"{gameObject.name} est inactif et sera ignoré.");
+                        Debug.Log($"{gameObject.name} est inactif et sera ignorï¿½.");
                     }
                 }
                 factory.ResetGame();
@@ -158,12 +158,13 @@ public class Timer : MonoBehaviour
 
             for (int i = activeUsers.Count - 1; i >= 0; i--) 
             {
-
+                
+                if (textAllUserDead!=null)
                 textAllUserDead.text = $"Liste des mort : \r\n";
 
                 if (!activeUsers[i].activeInHierarchy)
                 {
-                    //Debug.Log($"Utilisateur {activeUsers[i].name} est désactivé et sera retiré.");
+                    //Debug.Log($"Utilisateur {activeUsers[i].name} est dï¿½sactivï¿½ et sera retirï¿½.");
                     //activeUsers.RemoveAt(i);
 
                     PlayerTeamIdRelayMono PTIRM = activeUsers[i].GetComponentInChildren<PlayerTeamIdRelayMono>();
