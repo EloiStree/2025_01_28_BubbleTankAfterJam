@@ -31,6 +31,21 @@ public class Timer : MonoBehaviour
     public TextMeshProUGUI winnable;
 
 
+    public string[] whatColor = {
+        "rouge",
+        "bleu",
+        "vert",
+        "yellow",
+        "cyan"
+    };
+    public Color[] teamColors = {
+        Color.red,
+        Color.blue,
+        Color.green,
+        Color.yellow,
+        Color.cyan
+    };
+
     void Update()
     {
         if (isGameStarted)
@@ -142,16 +157,9 @@ public class Timer : MonoBehaviour
                     Debug.Log("yooooooooooo");
                 }
 
-                string[] whatColor =
-                {
-                    "Rouge",
-                    "Bleu",
-                    "Vert",
-                    "Black",
-                    "Cyan"
-                };
+                
 
-
+                winnable.color = teamColors[j];
                 winnable.text = $"la team gagnante est {whatColor[j]}";
                 StartCoroutine(delWinableText());
             }

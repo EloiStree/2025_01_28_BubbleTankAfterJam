@@ -35,6 +35,13 @@
       "dependencies": {},
       "hash": "5b7d4ea86cf005192e791c073c770a7e2274eff8"
     },
+    "be.elab.quickgitutility": {
+      "version": "https://github.com/EloiStree/2019_07_21_QuickGitUtility.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "c3c77cff691baffa7fa619299989b8599625ec6b"
+    },
     "be.elab.tickcollection": {
       "version": "https://github.com/EloiStree/OpenUMP_TickCollection.git",
       "depth": 0,
@@ -55,6 +62,20 @@
       "source": "git",
       "dependencies": {},
       "hash": "59927904021fe46e83c856a72823e339da3aed05"
+    },
+    "be.elab.unitypackagefacilitator": {
+      "version": "https://github.com/EloiStree/2019_07_21_UnityPackageFacilitator.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1d899cc3f5cc59c5f9c51450d2817f7c77e7b553"
+    },
+    "be.elab.watchexecutetime": {
+      "version": "https://github.com/EloiStree/2024_04_18_WatchExecuteTime.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9590ee303a95dea450a5b1e4a191d7494d54ecf6"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
