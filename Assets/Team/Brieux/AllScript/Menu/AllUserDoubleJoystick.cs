@@ -16,7 +16,7 @@ public class AllUserDoubleJoystick : MonoBehaviour
     public UnityEvent<UserIdToDoubleJoyStick> onNewUser;
     public GameObject prefabUser;
     public TextMeshProUGUI textAllUserConnected;
-    public Canvas canvasMenu;
+    public GameObject m_menuPanel;
     public List<GameObject> allMap;
     public List<GameObject> allUsersGameObject;
 
@@ -94,6 +94,13 @@ public class AllUserDoubleJoystick : MonoBehaviour
         textAllUserConnected.text += " |";
     }
 
+    public Color[] teamColors = {
+                Color.red,
+                Color.blue,
+                Color.green,
+                Color.yellow,
+                Color.cyan
+            };
     public void PushIntegerAction(int userId, int action)
     {
         if (isGamePause) return; 
@@ -129,7 +136,21 @@ public class AllUserDoubleJoystick : MonoBehaviour
     {
         if (CreateTeam())
         {
-            map = Instantiate(allMap[allTeam.Count - 2]);
+            if (allTeam.Count >= 2)
+            {
+                if (allMap.Count < allTeam.Count - 1)
+                {
+                    map = Instantiate(allMap[0]);
+                }
+                else{
+                    map = Instantiate(allMap[allTeam.Count - 2]);
+                }
+            }
+            else
+            {
+                Debug.LogError("Not enough teams to select a map.");
+                return;
+            }
             theTimer.isGameStarted = true;
 
             List<Vector3> teamPositions = new List<Vector3>();
@@ -142,15 +163,9 @@ public class AllUserDoubleJoystick : MonoBehaviour
                 teamPositions.Add(spawn.transform.position + new Vector3(0,1,0));
             }
 
-            Color[] teamColors = {
-                Color.red,
-                Color.blue,
-                Color.green,
-                Color.HSVToRGB(255, 165 ,0),
-                Color.cyan
-            };
+            
 
-            canvasMenu.enabled = false;
+            m_menuPanel.SetActive (false);
             for (int teamIndex = 0; teamIndex < allTeam.Count; teamIndex++)
             {
                 Team team = allTeam[teamIndex];
@@ -284,12 +299,9 @@ public class AllUserDoubleJoystick : MonoBehaviour
         allTeam.Clear();
         users.Clear();
         textAllUserConnected.text = "ALL USER CONNECTED :\r\n";
-        canvasMenu.enabled = true;
+        m_menuPanel.SetActive(true);
         win.text = "";
-
     }
-    
-
 }
 
 
