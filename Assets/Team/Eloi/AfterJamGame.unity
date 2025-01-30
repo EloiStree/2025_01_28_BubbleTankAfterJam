@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -129,7 +129,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 102066047122981876, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 39.632107
+      value: 82.676056
       objectReference: {fileID: 0}
     - target: {fileID: 102066047122981876, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalScale.z
@@ -165,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 961916158826707689, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1601.2236
+      value: -1622.7456
       objectReference: {fileID: 0}
     - target: {fileID: 961916158826707689, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -209,7 +209,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3656874334311550680, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 39.632107
+      value: 82.676056
       objectReference: {fileID: 0}
     - target: {fileID: 3656874334311550680, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalScale.y
@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6723538365412388581, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1561.5916
+      value: -1540.0696
       objectReference: {fileID: 0}
     - target: {fileID: 6723538365412388581, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -305,7 +305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515217158650105199, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 39.632107
+      value: 82.676056
       objectReference: {fileID: 0}
     - target: {fileID: 7515217158650105199, guid: 498f24e18b4570b469c43531be4abae5, type: 3}
       propertyPath: m_LocalScale.z
@@ -358,6 +358,7 @@ GameObject:
   m_Component:
   - component: {fileID: 104648375}
   - component: {fileID: 104648376}
+  - component: {fileID: 104648377}
   m_Layer: 0
   m_Name: Export Player Position as UDP Package
   m_TagString: Untagged
@@ -397,7 +398,19 @@ MonoBehaviour:
       m_Calls: []
   m_onUdpPushAsByte:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 104648377}
+        m_TargetAssemblyTypeName: BroadcastToAllThePackageUdpMono, Assembly-CSharp
+        m_MethodName: PushBytesIn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   timeBetweenCoroutinePush: 0.2
   m_previousPlayer: []
   m_currentPlayerActive: []
@@ -407,6 +420,20 @@ MonoBehaviour:
   m_textSent: 
   m_lenghtInBytes: 0
   m_percentOfUdpMaxSize: 0
+--- !u!114 &104648377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104648374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c819d049475d2bd43a9d13a5eceac30e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_targetsIpv4Port: 
+  m_targets: []
 --- !u!1 &111485187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,7 +1129,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  nbrUser: 10
+  nbrUser: 60
 --- !u!4 &488476577
 Transform:
   m_ObjectHideFlags: 0
@@ -1899,6 +1926,18 @@ MonoBehaviour:
   allTeamActif: []
   isWin: 0
   winnable: {fileID: 598220386}
+  whatColor:
+  - rouge
+  - bleu
+  - vert
+  - yellow
+  - cyan
+  teamColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &1213652120
 MonoBehaviour:
   m_ObjectHideFlags: 0
