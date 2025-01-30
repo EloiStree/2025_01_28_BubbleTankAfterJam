@@ -37,11 +37,10 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
     //     public PlayerGamepadRelayMono m_playerGamepadRelayMono;
     // }
 
-   void OnEnable()
-   {
-         StartCoroutine(PushPlayerAsOneUdpPackage());
-         
-   }
+
+    IEnumerator Start(){
+        yield return  PushPlayerAsOneUdpPackage();
+    }
 
     public string m_textSent;
     public int m_lenghtInBytes;
@@ -50,6 +49,7 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
     {
         while (true)
         {
+            Debug.Log("Tests");
             yield return new WaitForSeconds(timeBetweenCoroutinePush);
             yield return new WaitForEndOfFrame();
             m_previousPlayer = m_currentPlayerActive.ToList();
@@ -76,6 +76,7 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
                     {
                         Debug.Log("Destroy player active: " + player.name);
                     }
+                }
             }
 
             StringBuilder sb=  new StringBuilder();
@@ -114,4 +115,4 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
         }
     }
 }
-}
+

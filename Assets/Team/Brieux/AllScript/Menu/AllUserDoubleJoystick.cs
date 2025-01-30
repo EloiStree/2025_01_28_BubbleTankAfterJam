@@ -182,7 +182,7 @@ public class AllUserDoubleJoystick : MonoBehaviour
 
                     
 
-                    idOfPlayer?.SetTeamId(team.User[i].id);
+                    idOfPlayer?.SetTeamId(teamIndex);
                     colorPlayer?.SetColor(teamColors[teamIndex]);
                     gamepadPlayer?.PushInGamepadValue(team.User[i].id, Random.insideUnitCircle, Random.insideUnitCircle);
 
