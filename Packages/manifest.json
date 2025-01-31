@@ -5,15 +5,13 @@
     "be.elab.indexintcmd": "https://github.com/EloiStree/2024_02_21_IndexIntCmd.git",
     "be.elab.intcmd": "https://github.com/EloiStree/2024_02_17_IntCmd.git",
     "be.elab.pushgenericintegerdate": "https://github.com/EloiStree/OpenUPM_PushGenericIID.git",
+    "be.elab.quickgitutility": "https://github.com/EloiStree/2019_07_21_QuickGitUtility.git",
     "be.elab.tickcollection": "https://github.com/EloiStree/OpenUMP_TickCollection.git",
     "be.elab.transparentoverlayerwindow": "https://github.com/EloiStree/2024_01_22_TransparentWindowOverlay.git",
     "be.elab.udpthreadsender": "https://github.com/EloiStree/2020_11_29_UDPThreadSender.git",
-    "be.elab.quickgitutility": "https://github.com/EloiStree/2019_07_21_QuickGitUtility.git",
-"be.elab.unitypackagefacilitator": "https://github.com/EloiStree/2019_07_21_UnityPackageFacilitator.git",
-
-
-"be.elab.watchexecutetime": "https://github.com/EloiStree/2024_04_18_WatchExecuteTime.git",
-
+    "be.elab.unityfetchoffsetntp": "https://github.com/EloiStree/OpenUPM_UnityFetchOffsetNTP.git",
+    "be.elab.unitypackagefacilitator": "https://github.com/EloiStree/2019_07_21_UnityPackageFacilitator.git",
+    "be.elab.watchexecutetime": "https://github.com/EloiStree/2024_04_18_WatchExecuteTime.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.collab-proxy": "2.6.0",

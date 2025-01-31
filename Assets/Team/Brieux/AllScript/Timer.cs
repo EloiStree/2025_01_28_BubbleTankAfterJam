@@ -52,8 +52,8 @@ public class Timer : MonoBehaviour
         {
             if (isGood)
             {
-                activeUsers = new List<GameObject>(userDb.allUsersGameObject);
-                allTeamActif = new List<Team>(userDb.allTeam);
+                // activeUsers = new List<GameObject>(userDb.allUsersGameObject);
+                // allTeamActif = new List<Team>(userDb.allTeam);
                 isGood= false;
             }
             m_Time += Time.deltaTime;

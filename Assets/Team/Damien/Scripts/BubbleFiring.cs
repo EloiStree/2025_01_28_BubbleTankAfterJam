@@ -10,6 +10,9 @@ public class BubbleFiring : MonoBehaviour
     [SerializeField] GameObject bubbleSpawner;
     [SerializeField] GameObject bubblePrefab;
     [SerializeField] float waitTimeBeforeShoot = 1;
+
+
+    public int [] m_integerToFire = new int[]{1300, 1032};
     public int actionTriggered;
 
     private bool _isReloading = false;
@@ -26,10 +29,23 @@ public class BubbleFiring : MonoBehaviour
         _timer = waitTimeBeforeShoot;
     }
 
+    public bool IsFireInteger(int value){
+
+        for(int i =0 ; i < m_integerToFire.Length; i++)
+        {
+            if (m_integerToFire[i] == value)
+            {
+                return true;
+            }
+        }
+        return false;
+
+    }
+    
     public void OnAction(int action)
     {
         actionTriggered = action;
-        if (actionTriggered == 1300)
+        if (IsFireInteger(action))
         {
             var t = bubbleSpawner.transform;
             Debug.DrawLine(t.position, t.position+ t.forward*m_checkWallMaxDistance, Color.yellow,10);

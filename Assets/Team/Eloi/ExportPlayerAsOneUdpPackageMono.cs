@@ -1,6 +1,5 @@
-using System;
+
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
@@ -22,8 +21,7 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
     public List<PlayerInSceneTagMono> m_newPlayerActive;
     public List<PlayerInSceneTagMono> m_destroyPlayer;
     
-
-    public string m_lineFormat_id_team_position_rotation = "{0}:{1}:{2}:{3}:{4}:{5}:{6}:{7}";
+    public string m_lineFormat_id_team_position_rotation = "{0}:{1}:{2}:{3}:{4}:{5}:{6}:{7}:{8}:{9}";
 
 
     // [System.Serializable]
@@ -45,15 +43,32 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
     public string m_textSent;
     public int m_lenghtInBytes;
     public float m_percentOfUdpMaxSize;
+
+    public int m_playerInScene;
+
+
+    public void NotifyGameStart()
+    {
+            m_previousPlayer.Clear();
+        m_currentPlayerActive.Clear();
+        m_newPlayerActive.Clear();
+        m_destroyPlayer.Clear();
+    }
+    public void NotifyGameStop()
+    {
+        m_previousPlayer.Clear();
+        m_currentPlayerActive.Clear();
+        m_newPlayerActive.Clear();
+        m_destroyPlayer.Clear();
+    }
     private IEnumerator PushPlayerAsOneUdpPackage()
     {
         while (true)
         {
-            Debug.Log("Tests");
             yield return new WaitForSeconds(timeBetweenCoroutinePush);
             yield return new WaitForEndOfFrame();
             m_previousPlayer = m_currentPlayerActive.ToList();
-            m_currentPlayerActive= PlayerInSceneTagMono.playerActiveInScene.ToList();
+            m_currentPlayerActive= PlayerInSceneTagMono.playerActiveInScene.Where(k=>k!=null).ToList();
             m_newPlayerActive = m_currentPlayerActive.Except(m_previousPlayer).ToList();
             m_destroyPlayer = m_previousPlayer.Except(m_currentPlayerActive).ToList();
 
@@ -62,47 +77,63 @@ public class ExportPlayerAsOneUdpPackageMono : MonoBehaviour
             {
                 if (m_newPlayerActive.Count > 0)
                 {
-                    Debug.Log("New player active: " + m_newPlayerActive.Count);
+                    //Debug.Log("New player active: " + m_newPlayerActive.Count);
                     foreach (var player in m_newPlayerActive)
                     {
-                        Debug.Log("New player active: " + player.name);
+//                        Debug.Log("New player active: " + player.name);
                     }
                 }
 
                 if (m_destroyPlayer.Count > 0)
                 {
-                    Debug.Log("Destroy player active: " + m_destroyPlayer.Count);
+  //                  Debug.Log("Destroy player active: " + m_destroyPlayer.Count);
                     foreach (var player in m_destroyPlayer)
                     {
-                        Debug.Log("Destroy player active: " + player.name);
+                        if(player==null)
+                            continue;
+    //                    Debug.Log("Destroy player active: " + player.name);
                     }
                 }
             }
 
             StringBuilder sb=  new StringBuilder();
-            sb.AppendLine("ID:TEAM:PX:PY:PZ:RX:RY:RZ");
+            sb.AppendLine("ID:TEAM:PX:PY:PZ:RX:RY:RZ:RADIUS:XTOZANGLE");
 
-            foreach(var playerTag in PlayerInSceneTagMono.playerActiveInScene)
+            foreach(var playerTag in m_currentPlayerActive)
             {
+                if (playerTag==null)
+                    continue;
                 // DRITY CODE
                 PlayerGamepadRelayMono playerGamepadRelayMono = playerTag.GetComponent<PlayerGamepadRelayMono>();
                 PlayerTeamIdRelayMono playerTeamIdRelayMono = playerTag.GetComponent<PlayerTeamIdRelayMono>();
-                if(playerGamepadRelayMono==null || playerTeamIdRelayMono==null)
+                PlayerRadiusSizeFetchMono size = playerTag.GetComponent<PlayerRadiusSizeFetchMono>();
+    
+                if(playerGamepadRelayMono==null || playerTeamIdRelayMono==null || size==null)
                     continue;
                 
                 int playerId = playerGamepadRelayMono.m_userIntegerId;
                 int teamId = playerTeamIdRelayMono.m_teamId;
 
+                Vector3 dir = playerTag.transform.forward;
+                dir.y = 0;
+
+                float floatAngleClassicMath = -Vector3.SignedAngle(Vector3.right, dir, Vector3.up);
+
+
+
                 sb.AppendLine(string.Format(
                     m_lineFormat_id_team_position_rotation,
                     playerId,
                      teamId,
-                      (int)(playerTag.transform.localPosition.x*1000), 
-                      (int)(playerTag.transform.localPosition.y*1000),
-                       (int)(playerTag.transform.localPosition.z*1000),
-                        (int)(playerTag.transform.localEulerAngles.x*1000),
-                         (int)(playerTag.transform.localEulerAngles.y*1000),
-                          (int)(playerTag.transform.localEulerAngles.z*1000)));
+                      (int)(playerTag.transform.position.x*1000), 
+                      (int)(playerTag.transform.position.y*1000),
+                       (int)(playerTag.transform.position.z*1000),
+                        (int)(playerTag.transform.eulerAngles.x*1000),
+                         (int)(playerTag.transform.eulerAngles.y*1000),
+                          (int)(playerTag.transform.eulerAngles.z*1000),
+                           (int)(size.m_currentSize*1000),
+                           (int)(floatAngleClassicMath*1000)
+                           ));
             }
             string udpMessage = sb.ToString();
             m_onUdpPushAsUTF8.Invoke(udpMessage);

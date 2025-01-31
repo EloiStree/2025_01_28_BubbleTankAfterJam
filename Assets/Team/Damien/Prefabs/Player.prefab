@@ -203,8 +203,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.044671, y: 3.4943984, z: 1}
-  m_Center: {x: 0.022335663, y: 1.2471993, z: 0}
+  m_Size: {x: 0.75766575, y: 3.4943984, z: 0.7436496}
+  m_Center: {x: -0.14350215, y: 1.2471993, z: 0.0098595675}
 --- !u!1 &6073623584254978117
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,13 +229,45 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6073623584254978117}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.000000104308114}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2674293000830327321}
   - {fileID: 3731029148174511867}
+  - {fileID: 3150752160249210239}
+  m_Father: {fileID: 1418984810158472275}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &7626471005585301121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 793299540685136535}
+  m_Layer: 0
+  m_Name: Radius Size
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &793299540685136535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626471005585301121}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.394, y: 0, z: 0.013}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 1418984810158472275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7652020742551234131
@@ -262,12 +294,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7652020742551234131}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.124, y: 0.444, z: -0.98}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.124, y: 0.4439999, z: -0.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1418984810158472275}
+  m_Father: {fileID: 2241103393549007310}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &7823913483235288776
 GameObject:
@@ -501,6 +533,7 @@ GameObject:
   - component: {fileID: 4610301363467629352}
   - component: {fileID: 8496042968839165201}
   - component: {fileID: 7179579496564081753}
+  - component: {fileID: 2201525371080416530}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -525,8 +558,8 @@ Transform:
   - {fileID: 9008044569144483876}
   - {fileID: 7954288703654025827}
   - {fileID: 2241103393549007310}
-  - {fileID: 3150752160249210239}
   - {fileID: 7747312613495940624}
+  - {fileID: 793299540685136535}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3465555862736721757
@@ -538,7 +571,7 @@ Rigidbody:
   m_GameObject: {fileID: 8716285581423193667}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0.1
+  m_Drag: 1
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -681,6 +714,7 @@ MonoBehaviour:
   bubbleSpawner: {fileID: 7652020742551234131}
   bubblePrefab: {fileID: 6072402089679426687, guid: b34a055255e514788911966872687b70, type: 3}
   waitTimeBeforeShoot: 0.2
+  m_integerToFire: 1405000008040000
   actionTriggered: 0
   m_checkWallMaxDistance: 0.1
   m_wallAndOtherLayer:
@@ -699,6 +733,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifePoints: 3
+--- !u!114 &2201525371080416530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716285581423193667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c0f8c9b909c084cab8729506f8992b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_center: {fileID: 1418984810158472275}
+  m_radius: {fileID: 793299540685136535}
+  m_currentSize: 0
 --- !u!1001 &2492256606330519026
 PrefabInstance:
   m_ObjectHideFlags: 0

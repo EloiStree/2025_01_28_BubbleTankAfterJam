@@ -63,6 +63,13 @@
       "dependencies": {},
       "hash": "59927904021fe46e83c856a72823e339da3aed05"
     },
+    "be.elab.unityfetchoffsetntp": {
+      "version": "https://github.com/EloiStree/OpenUPM_UnityFetchOffsetNTP.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "d98e42640fe58c748ebf8ba15f4984a99be7a223"
+    },
     "be.elab.unitypackagefacilitator": {
       "version": "https://github.com/EloiStree/2019_07_21_UnityPackageFacilitator.git",
       "depth": 0,

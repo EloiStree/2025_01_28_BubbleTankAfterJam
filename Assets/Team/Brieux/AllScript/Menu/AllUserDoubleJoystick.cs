@@ -8,272 +8,139 @@ using UnityEngine.UI;
 
 public class AllUserDoubleJoystick : MonoBehaviour
 {
-    public List<UserIdToDoubleJoyStick> allUser;
-    public List<Team> allTeam;
-    public List<User> users;
-   
-    public UnityEvent<UserIdToDoubleJoyStick> onValueChanged;
-    public UnityEvent<UserIdToDoubleJoyStick> onNewUser;
     public GameObject prefabUser;
     public TextMeshProUGUI textAllUserConnected;
     public GameObject m_menuPanel;
-    public List<GameObject> allMap;
-    public List<GameObject> allUsersGameObject;
-
-    [SerializeField]
-    private Timer theTimer;
-
-    [SerializeField]
-    private GameObject map;
-    private int userMax = 100;
     private bool isGamePause = false;
     private bool isGameStart = false;
 
     public TextMeshProUGUI win;
 
+    public UnityEvent m_onGameStart;
+    public UnityEvent m_onBeforeGameStop;
+    public UnityEvent m_onAfterGameStop;
 
-    public void DoAction(int action)
+
+public TeamInfo [] m_teamInfo = new TeamInfo[]{
+    new TeamInfo{m_teamId=0, m_teamName="Red", m_color=Color.red},
+    new TeamInfo{m_teamId=1, m_teamName="Green", m_color=Color.green},
+    new TeamInfo{m_teamId=2, m_teamName="Blue", m_color=Color.blue},
+    new TeamInfo{m_teamId=3, m_teamName="Yellow", m_color=Color.yellow},
+    new TeamInfo{m_teamId=4, m_teamName="Cyan", m_color=Color.cyan}
+};
+
+[System.Serializable]
+public class TeamInfo{
+
+    public string m_teamName;
+    public int m_teamId;
+    public  Color m_color;
+    public  Transform m_parent;
+    public Transform m_spawnPoint;
+}
+ 
+ public List<int> m_playerInLobby= new List<int>();
+
+    public List<GameobjectToScriptIndexPlayer> m_playerIngame;
+    [System.Serializable]
+    public class GameobjectToScriptIndexPlayer
     {
-        switch (action)
-        {
-            case 42:
-                LaunchGame();
-                break;
-            case 69:
-                Debug.Log("hello");
-                StartCoroutine(reset());
-                break;
-        }
+        public int m_playerIndex;
+        public GameObject m_created;
+        public PlayerInSceneTagMono m_tag;
+        public PlayerGamepadRelayMono m_gamepad;
+        public PlayerColorRelayMono m_color;
+        public PlayerTeamIdRelayMono m_teamId;
     }
 
-    IEnumerator reset()
-    {
-         yield return new WaitForSeconds(1);
-        ResetGame();
-    }
 
+    public void SetOrAdd(int userId, Vector2 joystick){
+
+        SetOrAdd(userId, joystick,joystick);
+    }
     public void SetOrAdd(int userId , Vector2 joystickLeft, Vector2 joystickRight)
     {
         if (isGamePause) return;
 
-        for (int i = 0; i < allUser.Count; i++)
+        if (m_playerInLobby.Contains(userId) == false)
         {
-            if (allUser[i].id == userId)
+            m_playerInLobby.Add(userId);
+            textAllUserConnected.text += " |";
+        }
+
+        foreach (var user in m_playerIngame)
+        {
+            if (user.m_playerIndex == userId)
             {
-                if (i < allUsersGameObject.Count)
-                {
-                    allUser[i].joystickLeft = joystickLeft;
-                    allUser[i].joystickRight = joystickRight;
-                    PlayerGamepadRelayMono PGM = allUsersGameObject[i].GetComponentInChildren<PlayerGamepadRelayMono>();
-
-                    if (PGM != null)
-                    {
-                        PGM.PushInGamepadValue(userId, joystickLeft, joystickRight);
-                    }
-
-                    onValueChanged.Invoke(allUser[i]);
-                }
+                user.m_gamepad.PushInGamepadValue(userId, joystickLeft, joystickRight);
                 return;
-
             }
         }
-
-        if (allUser.Count >= userMax)
-        {
-            return;
-        }
-
-        UserIdToDoubleJoyStick newUser = new UserIdToDoubleJoyStick { id = userId, joystickLeft = joystickLeft, joystickRight = joystickRight };
-        allUser.Add(newUser);
-        onNewUser.Invoke(newUser);
-        onValueChanged.Invoke(newUser);
-        User tempUser = new User();
-        tempUser.id = userId;
-        users.Add( tempUser);
-        //textAllUserConnected.text += $"user avec id : {userId}\r\n"; 
-        textAllUserConnected.text += " |";
     }
 
-    public Color[] teamColors = {
-                Color.red,
-                Color.blue,
-                Color.green,
-                Color.yellow,
-                Color.cyan
-            };
     public void PushIntegerAction(int userId, int action)
     {
         if (isGamePause) return; 
 
-        for (int i = 0; i < allUser.Count; i++)
+        if (m_playerInLobby.Contains(userId) == false)
         {
-            if (allUser[i].id == userId)
-            {
-                if(i < allUsersGameObject.Count)
-                {
-                    PlayerGamepadRelayMono gamepadUser = allUsersGameObject[i].GetComponent<PlayerGamepadRelayMono>();
-                    gamepadUser.PushInIntegerAction(userId, action);
-                    allUser[i].lastReceived = action;
-                }
-                return;
-            }
+            m_playerInLobby.Add(userId);
+            textAllUserConnected.text += " |";
         }
 
-        UserIdToDoubleJoyStick newUser = new UserIdToDoubleJoyStick { id = userId, joystickLeft = Vector2.zero , joystickRight = Vector2.zero };
-
-        allUser.Add(newUser);
-        onNewUser.Invoke(newUser);
-        onValueChanged.Invoke(newUser);
-        User tempUser = new User();
-        tempUser.id = userId;
-        users.Add(tempUser);
-        //textAllUserConnected.text += $"user avec id : {userId}\r\n";
-        textAllUserConnected.text += " |";
-
+        foreach (var user in m_playerIngame){
+            if (user.m_playerIndex == userId)
+            {
+                    user.m_gamepad.PushInIntegerAction(userId,action);     
+                    return;       
+            }
+        }
     }
 
+    public bool m_gameStarted=false;
+
+    public float m_randomRadius =3;
     public void LaunchGame()
     {
-        if (CreateTeam())
-        {
-            if (allTeam.Count >= 2)
-            {
-                if (allMap.Count < allTeam.Count - 1)
-                {
-                    map = Instantiate(allMap[0]);
-                }
-                else{
-                    map = Instantiate(allMap[allTeam.Count - 2]);
-                }
-            }
-            else
-            {
-                Debug.LogError("Not enough teams to select a map.");
-                return;
-            }
-            theTimer.isGameStarted = true;
+       
 
-            List<Vector3> teamPositions = new List<Vector3>();
-            GameObject[] spawner = GameObject.FindGameObjectsWithTag("Spawn");
-
-            
-
-            foreach (var spawn in spawner)
-            {
-                teamPositions.Add(spawn.transform.position + new Vector3(0,1,0));
-            }
-
-            
-
+            m_gameStarted = true;
+          
             m_menuPanel.SetActive (false);
-            for (int teamIndex = 0; teamIndex < allTeam.Count; teamIndex++)
+            int teamIndex = 0;
+            foreach (var userIndex in m_playerInLobby)
             {
-                Team team = allTeam[teamIndex];
-
-                for (int i = 0; i < team.User.Count; i++)
-                {
+                    int teamClaim = teamIndex % m_teamInfo.Length;
+                    Transform spawn  = m_teamInfo[teamClaim].m_spawnPoint;
+                    Transform parent = m_teamInfo[teamClaim].m_parent;
                     GameObject gameobjectUser = Instantiate(prefabUser);
-                    gameobjectUser.name = $"{team.User[i].id}";
+                    gameobjectUser.transform.SetParent(parent);
 
+                    gameobjectUser.name = $"{userIndex}";
+                    gameobjectUser.transform.position = spawn.position + new Vector3(Random.Range(-m_randomRadius, m_randomRadius), 0, Random.Range(-m_randomRadius, m_randomRadius));
+                    gameobjectUser.transform.rotation = spawn.rotation;
 
-                    PlayerTeamIdRelayMono idOfPlayer = gameobjectUser.gameObject.GetComponentInChildren<PlayerTeamIdRelayMono>();
-                    PlayerColorRelayMono colorPlayer = gameobjectUser.GetComponentInChildren<PlayerColorRelayMono>();
-                    PlayerGamepadRelayMono gamepadPlayer = gameobjectUser.GetComponentInChildren<PlayerGamepadRelayMono>();
+                    var c = new GameobjectToScriptIndexPlayer { 
+                        m_playerIndex = userIndex,
+                         m_created = gameobjectUser,
+                          m_tag = gameobjectUser.GetComponentInChildren<PlayerInSceneTagMono>(),
+                           m_gamepad = gameobjectUser.GetComponentInChildren<PlayerGamepadRelayMono>(),
+                            m_color = gameobjectUser.GetComponentInChildren<PlayerColorRelayMono>(), 
+                            m_teamId = gameobjectUser.GetComponentInChildren<PlayerTeamIdRelayMono>() 
+                            };
+                    c.m_teamId?.SetTeamId(teamClaim);
+                    c.m_color?.SetColor(m_teamInfo[teamClaim].m_color);
+                    c.m_gamepad?.PushInGamepadValue(userIndex, Vector2.zero, Vector2.zero);
+                    m_playerIngame.Add(c);
 
-                    
-
-                    idOfPlayer?.SetTeamId(teamIndex);
-                    colorPlayer?.SetColor(teamColors[teamIndex]);
-                    gamepadPlayer?.PushInGamepadValue(team.User[i].id, Random.insideUnitCircle, Random.insideUnitCircle);
-
-                    //Vector3 offset = new Vector3(i * 1, 0, 0);
-
-                    Vector3 offset;
-                    if (i == 0)
-                    {
-                        offset = Vector3.zero;
-                    }
-                    else
-                    {
-                        float angle = (360f / team.User.Count) * (i - 1); 
-                        float radius = 2f; 
-                        offset = new Vector3(
-                            Mathf.Cos(angle * Mathf.Deg2Rad) * radius, 
-                            1.5f,
-                            Mathf.Sin(angle * Mathf.Deg2Rad) * radius  
-                        );
-                    }
-
-                    gameobjectUser.transform.position = teamPositions[teamIndex] + offset;
-
-                    Renderer renderer = gameobjectUser.GetComponent<Renderer>();
-                    if (renderer != null)
-                    {
-                        renderer.material.color = teamColors[teamIndex];
-                    }
-
-                    allUsersGameObject.Add(gameobjectUser);
-
-                    Debug.Log($"Utilisateur {team.User[i].id} positionné en {gameobjectUser.transform.position}");
-                }
+                    teamIndex++;
             }
-        }
-        else
-        {
-            Debug.LogError("Probleme.");
-        }
+            m_onGameStart.Invoke();
+       
     }
 
-    public bool CreateTeam()
-    {
-        int sizeUser = users.Count;
-        allTeam = new List<Team>();
-        int numberOfTeams;
+   
 
-        if (sizeUser < 1)
-        {
-            Debug.LogError("Il n'y a pas assez de personnes pour créer une équipe.");
-            return false;
-        }
-
-        if (sizeUser < 9)
-        {
-            Debug.Log("Création de 2 équipes.");
-            numberOfTeams = 2;
-        }
-        else if (sizeUser < 15)
-        {
-            Debug.Log("Création de 3 équipes.");
-            numberOfTeams = 3;
-        }
-        else if (sizeUser < 20)
-        {
-            Debug.Log("Création de 4 équipes.");
-            numberOfTeams = 4;
-        }
-        else if (sizeUser <= userMax)
-        {
-            Debug.Log("Création de 4 équipes.");
-            numberOfTeams = 5;
-        }
-        else
-        {
-            Debug.LogError("Vous avez trop de personnes.");
-            return false;
-        }
-
-        for (int i = 0; i < numberOfTeams; i++)
-        {
-            allTeam.Add(new Team { User = new List<User>() });
-        }
-
-        for (int i = 0; i < sizeUser; i++)
-        {
-            int teamIndex = i % numberOfTeams;
-            allTeam[teamIndex].User.Add(users[i]);
-        }
-        return true;
-    }
 
     public void PauseGame()
     {
@@ -283,24 +150,20 @@ public class AllUserDoubleJoystick : MonoBehaviour
 
     public void ResetGame()
     {
-        GameObject.Destroy(map);
+        m_onBeforeGameStop.Invoke();
+        m_playerInLobby.Clear();
         isGamePause = false;
-        theTimer.isGameStarted = false;
-        foreach (GameObject user in allUsersGameObject)
+        isGameStart = false;
+        foreach (var user in m_playerIngame)
         {
-            user.SetActive(true);
-            GameObject.Destroy(user);
+            Destroy(user.m_created);
         }
-        allUsersGameObject.Clear();
-
-        theTimer.isGood = true;
-
-        allUser.Clear();
-        allTeam.Clear();
-        users.Clear();
+        m_playerIngame.Clear();
+        m_playerInLobby.Clear();
         textAllUserConnected.text = "ALL USER CONNECTED :\r\n";
         m_menuPanel.SetActive(true);
         win.text = "";
+        m_onAfterGameStop.Invoke();
     }
 }
 
