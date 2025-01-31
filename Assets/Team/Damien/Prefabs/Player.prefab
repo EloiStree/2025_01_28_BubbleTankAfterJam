@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1972687932010830128}
   - component: {fileID: 5434567569596983844}
   - component: {fileID: 8664552657163067005}
+  - component: {fileID: 7282702105041784046}
   m_Layer: 0
   m_Name: RigidBody
   m_TagString: Untagged
@@ -205,6 +206,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.75766575, y: 3.4943984, z: 0.7436496}
   m_Center: {x: -0.14350215, y: 1.2471993, z: 0.0098595675}
+--- !u!114 &7282702105041784046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5318264396214966095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009b02c7be6adc44e87814767b72d9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isMouseOver: 0
+  m_onMouseEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8716285581423193667}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_onMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6073623584254978117
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,6 +566,7 @@ GameObject:
   - component: {fileID: 8496042968839165201}
   - component: {fileID: 7179579496564081753}
   - component: {fileID: 2201525371080416530}
+  - component: {fileID: 8137183678454565498}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -748,6 +781,37 @@ MonoBehaviour:
   m_center: {fileID: 1418984810158472275}
   m_radius: {fileID: 793299540685136535}
   m_currentSize: 0
+--- !u!114 &8137183678454565498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8716285581423193667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 009b02c7be6adc44e87814767b72d9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isMouseOver: 0
+  m_onMouseEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8716285581423193667}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_onMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2492256606330519026
 PrefabInstance:
   m_ObjectHideFlags: 0

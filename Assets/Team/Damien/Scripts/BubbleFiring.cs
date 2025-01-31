@@ -3,6 +3,7 @@ using UnityEngine.Assertions;
 
 public class BubbleFiring : MonoBehaviour
 {
+    
 
     [Header("Bubble stats")]
     [SerializeField] private float bubbleDeliverySpeed = 10.0f;
@@ -44,6 +45,12 @@ public class BubbleFiring : MonoBehaviour
     
     public void OnAction(int action)
     {
+        // quit if not active in the hierarchy
+        if (!gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         actionTriggered = action;
         if (IsFireInteger(action))
         {
