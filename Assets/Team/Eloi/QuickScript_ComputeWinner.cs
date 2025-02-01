@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,8 @@ public class QuickScript_ComputeWinner : MonoBehaviour
         new TeamInfo(){m_name="Team Yellow",m_teamId=3,m_score=0,m_color=Color.yellow},
         new TeamInfo(){m_name="Team Cyan",m_teamId=4,m_score=0,m_color=Color.cyan}
     };
+
+    public UnityEvent<string> m_onTextMeshProColorScore;
 
     [System.Serializable]
     public class TeamInfo
@@ -92,6 +95,14 @@ public class QuickScript_ComputeWinner : MonoBehaviour
             m_onColorWon.Invoke(Color.white);    
              m_onWinnderDebug.Invoke(m_lastScore); 
         }
+
+        StringBuilder sb=  new StringBuilder();
+        for (int i = 0; i < m_teams.Length; i++)
+        {
+            string hexColor = ColorUtility.ToHtmlStringRGB(m_teams[i].m_color);
+            sb.Append($"<#{hexColor}>{m_teams[i].m_score} ");
+           }
+        m_onTextMeshProColorScore.Invoke(sb.ToString());
     }
 
     public UnityEvent<string> m_onWinnderDebug;
