@@ -21,7 +21,34 @@ public class AllUserDoubleJoystick : MonoBehaviour
     public UnityEvent m_onAfterGameStop;
 
     public float m_startSize=1;
+    public List<TeamOverriding> m_teamOverriding = new List<TeamOverriding>();
 
+[System.Serializable]
+public class TeamOverriding{
+    public int m_playerIndex;
+    public int m_associatedTeam;
+
+}
+[ContextMenu("SetTeam 10 to 49")]
+public void SetTeam10to49(){
+    m_teamOverriding.Clear();
+    for (int i = 10; i < 19; i++)
+    {
+        m_teamOverriding.Add(new TeamOverriding{m_playerIndex=-i, m_associatedTeam=1});
+    }
+    for (int i = 20; i < 29; i++)
+    {
+        m_teamOverriding.Add(new TeamOverriding{m_playerIndex=-i, m_associatedTeam=2});
+    }
+    for (int i = 30; i < 39; i++)
+    {
+        m_teamOverriding.Add(new TeamOverriding{m_playerIndex=-i, m_associatedTeam=3});
+    }
+    for (int i = 40; i < 49; i++)
+    {
+        m_teamOverriding.Add(new TeamOverriding{m_playerIndex=-i, m_associatedTeam=4});
+    }
+}
 
 public TeamInfo [] m_teamInfo = new TeamInfo[]{
     new TeamInfo{m_teamId=0, m_teamName="Red", m_color=Color.red},
@@ -115,6 +142,15 @@ public class TeamInfo{
             foreach (var userIndex in m_playerInLobby)
             {
                     int teamClaim = teamIndex % m_teamInfo.Length;
+
+                    foreach (var overrideTeam in m_teamOverriding)
+                    {
+                        if (overrideTeam.m_playerIndex == userIndex)
+                        {
+                            teamClaim = overrideTeam.m_associatedTeam;
+                            break;
+                        }
+                    }
                     Transform spawn  = m_teamInfo[teamClaim].m_spawnPoint;
                     Transform parent = m_teamInfo[teamClaim].m_parent;
                     GameObject gameobjectUser = Instantiate(prefabUser);
