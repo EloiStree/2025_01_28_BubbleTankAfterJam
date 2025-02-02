@@ -20,6 +20,8 @@ public class AllUserDoubleJoystick : MonoBehaviour
     public UnityEvent m_onBeforeGameStop;
     public UnityEvent m_onAfterGameStop;
 
+    public float m_startSize=1;
+
 
 public TeamInfo [] m_teamInfo = new TeamInfo[]{
     new TeamInfo{m_teamId=0, m_teamName="Red", m_color=Color.red},
@@ -41,7 +43,7 @@ public class TeamInfo{
  
  public List<int> m_playerInLobby= new List<int>();
 
-    public List<GameobjectToScriptIndexPlayer> m_playerIngame;
+    public List<GameobjectToScriptIndexPlayer> m_playerInGame;
     [System.Serializable]
     public class GameobjectToScriptIndexPlayer
     {
@@ -68,7 +70,7 @@ public class TeamInfo{
             textAllUserConnected.text += " |";
         }
 
-        foreach (var user in m_playerIngame)
+        foreach (var user in m_playerInGame)
         {
             if (user.m_playerIndex == userId)
             {
@@ -88,7 +90,7 @@ public class TeamInfo{
             textAllUserConnected.text += " |";
         }
 
-        foreach (var user in m_playerIngame){
+        foreach (var user in m_playerInGame){
             if (user.m_playerIndex == userId)
             {
                     user.m_gamepad.PushInIntegerAction(userId,action);     
@@ -100,6 +102,8 @@ public class TeamInfo{
     public bool m_gameStarted=false;
 
     public float m_randomRadius =3;
+
+    public UnityEvent<Transform, int > m_onPlayerCreatedIndex;
     public void LaunchGame()
     {
        
@@ -114,6 +118,7 @@ public class TeamInfo{
                     Transform spawn  = m_teamInfo[teamClaim].m_spawnPoint;
                     Transform parent = m_teamInfo[teamClaim].m_parent;
                     GameObject gameobjectUser = Instantiate(prefabUser);
+                    gameobjectUser.transform.localScale = new Vector3(m_startSize, m_startSize, m_startSize);
                     gameobjectUser.transform.SetParent(parent);
 
                     gameobjectUser.name = $"{userIndex}";
@@ -131,11 +136,16 @@ public class TeamInfo{
                     c.m_teamId?.SetTeamId(teamClaim);
                     c.m_color?.SetColor(m_teamInfo[teamClaim].m_color);
                     c.m_gamepad?.PushInGamepadValue(userIndex, Vector2.zero, Vector2.zero);
-                    m_playerIngame.Add(c);
+                    m_playerInGame.Add(c);
 
                     teamIndex++;
             }
             m_onGameStart.Invoke();
+
+            foreach (var user in m_playerInGame)
+            {
+                m_onPlayerCreatedIndex.Invoke(user.m_created.transform, user.m_playerIndex);
+            }
        
     }
 
@@ -154,11 +164,11 @@ public class TeamInfo{
         m_playerInLobby.Clear();
         isGamePause = false;
         isGameStart = false;
-        foreach (var user in m_playerIngame)
+        foreach (var user in m_playerInGame)
         {
             Destroy(user.m_created);
         }
-        m_playerIngame.Clear();
+        m_playerInGame.Clear();
         m_playerInLobby.Clear();
         textAllUserConnected.text = "ALL USER CONNECTED :\r\n";
         m_menuPanel.SetActive(true);

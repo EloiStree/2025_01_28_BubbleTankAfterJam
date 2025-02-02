@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class QuickScript_CheckPlayerCollisionWithTexture: MonoBehaviour{
@@ -22,11 +23,14 @@ public class QuickScript_CheckPlayerCollisionWithTexture: MonoBehaviour{
             if(m_collider.IsColliding(m_playersInGame[i].transform))
                m_playersInGame[i].gameObject.SetActive(false);
             
-            
-
         }
 
     }
 
+    bool m_useUpdate=true;
+    void Update(){
+        if (m_useUpdate)
+        CheckCollision();
+    }
 
 }

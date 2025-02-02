@@ -32,14 +32,35 @@ public class QuickScript_TextureColliderMap : MonoBehaviour
 
         if(x<0 || x>=m_mapTexture.width || y<0 || y>=m_mapTexture.height)
             return false;
-
         Color color = m_mapTexture.GetPixel(x,y);
         return color.a>0.5f;
-
     }
 
-    internal bool IsColliding(Transform transform)
+    internal bool IsColliding(Transform target)
     {
-        throw new NotImplementedException();
+
+        if(m_downLeftCorner==null || m_topRightCorner==null)
+            return false;
+
+        Eloi.RelocationUtility.GetWorldToLocal_DirectionalPoint
+        (
+            target.position,
+            target.rotation,
+            m_downLeftCorner,
+            out Vector3 localPos,
+            out Quaternion rotatoin
+        );
+        Eloi.RelocationUtility.GetWorldToLocal_DirectionalPoint
+        (
+            m_topRightCorner.position,
+            m_topRightCorner.rotation,
+            m_downLeftCorner,
+            out Vector3 localPosCorner,
+            out Quaternion rotatoinCorner
+        );
+
+        float percentXLeft2Right = localPos.x / localPosCorner.x;
+        float percentYDown2Top = localPos.y / localPosCorner.y;
+        return IsColliding(percentXLeft2Right,percentYDown2Top);        
     }
 }

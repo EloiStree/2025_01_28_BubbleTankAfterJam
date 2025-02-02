@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "1e6490fd2d7a91a2595a355fa3603f6adbc34952"
     },
+    "be.elab.gamewstoml": {
+      "version": "https://github.com/EloiStree/2025_02_01_GameStateUnityToWsTOML.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "7ab73ed38d1179dc3f2d617d8b4e339146ec53c7"
+    },
     "be.elab.iid": {
       "version": "https://github.com/EloiStree/OpenUPM_IID.git",
       "depth": 0,
@@ -41,6 +48,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "c3c77cff691baffa7fa619299989b8599625ec6b"
+    },
+    "be.elab.relocation": {
+      "version": "https://github.com/EloiStree/2024_10_19_RelocationRotation.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b5d6937d32f4c543717e4586aa782df0684240fe"
     },
     "be.elab.tickcollection": {
       "version": "https://github.com/EloiStree/OpenUMP_TickCollection.git",
@@ -78,11 +92,20 @@
       "hash": "1d899cc3f5cc59c5f9c51450d2817f7c77e7b553"
     },
     "be.elab.watchexecutetime": {
-      "version": "https://github.com/EloiStree/2024_04_18_WatchExecuteTime.git",
+      "version": "https://github.com/EloiStree/OpenUPM_WatchExecuteTime.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
       "hash": "9590ee303a95dea450a5b1e4a191d7494d54ecf6"
+    },
+    "be.elab.watchtimelayersexecution": {
+      "version": "https://github.com/EloiStree/OpenUPM_WatchTimeLayersExecution.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "be.elab.watchexecutetime": "2025.1.16"
+      },
+      "hash": "b885f9553a3d561e08006790a4fee1a6a7595b6c"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
