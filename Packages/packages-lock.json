@@ -42,6 +42,13 @@
       "dependencies": {},
       "hash": "5b7d4ea86cf005192e791c073c770a7e2274eff8"
     },
+    "be.elab.quickfollowit": {
+      "version": "https://github.com/EloiStree/2024_09_16_QuickFollowIt.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "63bc17c111b1bb6c1a06a7528edec148411f0269"
+    },
     "be.elab.quickgitutility": {
       "version": "https://github.com/EloiStree/2019_07_21_QuickGitUtility.git",
       "depth": 0,
